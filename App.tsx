@@ -1,17 +1,21 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoginScreen from './src/screens/LoginScreen';
-
-const Stack = createNativeStackNavigator();
+import {Provider} from 'react-redux';
+import {persistor, store} from './src/store/store';
+import {PersistGate} from 'redux-persist/integration/react';
+import {StatusBar, Text} from 'react-native';
+import RootStack from './src/navigators/RootStack';
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={LoginScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
+        <NavigationContainer>
+          <StatusBar backgroundColor={'purple'} />
+          <RootStack />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 };
 
